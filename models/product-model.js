@@ -1,26 +1,35 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-     image: {
-        type: String,
-    },
+    image: Buffer,
     name: {
         type: String,
+        required: true // Optional: You can make this required
     },
     price: {
-        type: String,
+        type: Number,
+        required: true // Optional: You can make this required
     },
-    discount:{
-        type: Nmber,
+    discount: {
+        type: Number,
         default: 0
     },
-    bgcolor: String,
-    panelcolor: String,
-    textcolor: String
+    bgcolor: {
+        type: String,
+        default: "white" // Default value set to white
+    },
+    panelcolor: {
+        type: String,
+        default: "#F9F6E9" // Default value set to light cream
+    },
+    textcolor: {
+        type: String,
+        default: "black" // Default value set to black
+    }
 });
 
-// Create the User model from the schema
+// Create the Product model from the schema
 const Product = mongoose.model('product', productSchema);
 
-// Export the User model
+// Export the Product model
 module.exports = Product;

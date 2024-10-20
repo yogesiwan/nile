@@ -1,0 +1,69 @@
+<%- include('./partials/header') %>
+
+<!-- Success Message -->
+<% if(success.length) { %>
+    <div id="success-message" class="absolute top-50 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-green-500">
+        <span class="inline-block mt-1 mb-1 text-white">
+            <%= success %>
+        </span>
+    </div>
+<% } %>
+
+<div class="w-full h-screen flex items-start px-20 py-20">
+    <!-- Sidebar Section -->
+    <div class="w-[25%] flex h-screen flex-col items-start">
+        <div class="flex items-center gap-2">
+            <h3>Sort by</h3>
+            <form action="/shop" method="GET">
+                <select class="border-[1px] px-2 py-1" name="sortby" onchange="this.form.submit()">
+                    <option value="popular">Popular</option>
+                    <option value="newest">Newest</option>
+                </select>
+            </form>
+        </div>
+        <div class="flex flex-col mt-20">
+            <a class="block w-fit mb-2" href="">New Collection</a>
+            <a class="block w-fit mb-2" href="">All Products</a>
+            <a class="block w-fit mb-2" href="">Discounted Products</a>
+        </div>
+        <div class="mt-32">
+            <a class="block w-fit mb-2" href="">Filter by :</a>
+            <a class="block w-fit mb-2" href="">Availability</a>
+            <a class="block w-fit mb-2" href="">Discount</a>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="w-[75%] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 h-screen">
+        <% products.forEach(function(product) { %>
+            <div class="w-full h-80"> <!-- Adjust height to 80 -->
+                <div class="h-64 flex items-center justify-center" style="background-color: <%= product.bgcolor %>;">
+                    <img class="h-[80%]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="">
+                </div>
+                <div class="flex justify-between items-center px-4 py-4 rounded-bl-lg rounded-br-lg" style="background-color: <%= product.panelcolor %>; color: <%= product.textcolor %>;">
+                    <div class="flex flex-col items-start">
+                        <h3 class="text-lg font-bold truncate w-40"> <!-- Set a fixed width -->
+                            <%= product.name %>
+                        </h3> <!-- Increase font size -->
+                        <h4 class="text-md">₹ <%= product.price %></h4> <!-- Increase font size -->
+                    </div>
+                    <a class="w-8 h-8 flex items-center justify-center rounded-full bg-white" href="/addtocart/<%= product._id %>">
+                        <i class="ri-add-line"></i>
+                    </a>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+<script>
+    // Hide success message after 2 seconds
+    setTimeout(() => {
+        const successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            successMessage.style.display = 'none';
+        }
+    }, 1200);
+</script>
+
+<%- include('./partials/footer') %>
