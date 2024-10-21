@@ -1,6 +1,7 @@
 // Express require
 const express = require('express');
 require("dotenv").config();
+const PORT = process.env.PORT || 6010;
 
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
@@ -43,7 +44,6 @@ app.use('/', indexRouter);
 app.use('/owners', ownersRouter); 
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
-const PORT = process.env.PORT || 6010;
 
 
 // Start the server
