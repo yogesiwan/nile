@@ -1,5 +1,5 @@
 const userModel = require("../models/user-model");
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const { generateToken } = require("../utils/generateToken");
 module.exports.registerUser =  async function (req, res) { // Correct order of parameters
     try {
@@ -14,7 +14,7 @@ module.exports.registerUser =  async function (req, res) { // Correct order of p
            
         // Hash the password using await
         const saltRounds = 10;
-        const hash =  await bcrypt.hash(password, saltRounds);
+        const hash =  await bcryptjs.hash(password, saltRounds);
 
         // Create the user with the hashed password
         const user = await userModel.create({
@@ -49,7 +49,7 @@ module.exports.loginUser = async function (req, res) {
     }
 
     // Compare password with hashed password
-    bcrypt.compare(password, user.password, function (err, result) {
+    bcryptjs.compare(password, user.password, function (err, result) {
         if (err) {
             // Handle error during password comparison
             req.flash("error", 'Something went wrong, please try again.');

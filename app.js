@@ -48,6 +48,6 @@ app.use('/users', usersRouter);
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`);
+    // console.log(`Server is running on ${PORT}`);
 });
 
