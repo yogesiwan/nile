@@ -43,7 +43,7 @@ app.use('/', indexRouter);
 app.use('/owners', ownersRouter); 
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6010;
 
 
 // Start the server

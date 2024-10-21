@@ -70,9 +70,9 @@ module.exports.loginUser = async function (req, res) {
 };
 
 module.exports.logout = async function (req, res) {
-    console.log("Before clearing cookie:", req.cookies.token); // Log cookie before clearing
+    // console.log("Before clearing cookie:", req.cookies.token); // Log cookie before clearing
     res.clearCookie("token");
-    console.log("After clearing cookie:", req.cookies.token); // Log cookie after clearing
+    // console.log("After clearing cookie:", req.cookies.token); // Log cookie after clearing
     res.redirect("/");
 };
 

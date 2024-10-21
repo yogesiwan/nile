@@ -10,8 +10,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="font-['Poppins']">
-    <nav class="w-full flex justify-between px-5 py-3">
+<body class="font-['Poppins'] bg-gray-100">
+    <nav class="w-full flex justify-between items-center px-5 py-4 fixed top-0 left-0 bg-white shadow-md z-10">
         <h3 class="mx-32 text-2xl font-semibold hover:text-gray-600 transition duration-100">Nile</h3>
         <% var loggedin = typeof loggedin !== "undefined" ? loggedin : true %>
 
@@ -24,5 +24,14 @@
                 <a href="/users/logout" class="font-semibold text-red-600 hover:text-red-700 transition duration-100">Logout</a>
             </div>
 
-            <%  }  %>
+        <%  }  %>
     </nav>
+
+    <!-- Main content section to allow scrolling -->
+    <div class="mt-16"> <!-- Add margin-top to push the content below the fixed header -->
+        <!-- Your content goes here -->
+    </div>
+
+</body>
+
+</html>

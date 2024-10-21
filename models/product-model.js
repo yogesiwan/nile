@@ -4,11 +4,11 @@ const productSchema = new mongoose.Schema({
     image: Buffer,
     name: {
         type: String,
-        required: true // Optional: You can make this required
+        required: true 
     },
     price: {
         type: Number,
-        required: true // Optional: You can make this required
+        required: true 
     },
     discount: {
         type: Number,

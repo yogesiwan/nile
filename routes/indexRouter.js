@@ -4,6 +4,7 @@ const isLoggedin = require("../middlewares/isLoggedIn");
 const productModel = require("../models/product-model");
 const userModel = require("../models/user-model");
 const cookieParser = require("cookie-parser");
+const categoryModel = require("../models/category-model");
 
 const app = express();
 app.use(cookieParser());
@@ -17,17 +18,53 @@ router.get("/", function (req, res) {
 });
 
 // Shop route
-router.get("/shop", isLoggedin, async function (req, res) {
+// router.get("/shop", async function (req, res) {
+//     try {
+//         let products = await productModel.find();
+//         let categories = await categoryModel.find().populate('products');
+//         // console.log(categories);
+//         let success = req.flash("success");
+
+//         res.render("shop", { products, success, categories });
+//     } catch (error) {
+//         console.error("Error fetching products:", error);
+//         req.flash("error", "Unable to fetch products.");
+//         res.redirect("/");
+//     }
+// });
+router.get("/shop", async (req, res) => {
     try {
-        let products = await productModel.find();
-        let success = req.flash("success");
-        res.render("shop", { products, success });
+        let categoryName = req.query.category; // Extract category from query string
+        // console.log(categoryName);
+
+        // If category is provided, find products for that category
+        let products;
+        if (categoryName){
+
+            const category = await categoryModel.findOne({ catname: categoryName }).populate('products');
+                   products =  category.products ;
+                    let categories = await categoryModel.find();
+                    // console.log(categories);
+                    let success = req.flash("success");
+            
+                    res.render("shop", { products, success, categories, categoryName });
+        } 
+        else {      
+                    categoryName = "All";
+                    let products = await productModel.find();
+                    let categories = await categoryModel.find();
+                    // console.log(categories);
+                    let success = req.flash("success");
+            
+                    res.render("shop", { products, success, categories, categoryName });
+            }
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching products by category:", error);
         req.flash("error", "Unable to fetch products.");
         res.redirect("/");
     }
 });
+
 
 // Add to Cart route
 router.get("/addtocart/:productid", isLoggedin, async function (req, res) {
