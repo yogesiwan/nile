@@ -1,5 +1,5 @@
-const express = require('express'); // Require Express
-const router = express.Router(); // Create a router instance
+const express = require('express'); 
+const router = express.Router(); 
 const isLoggedin = require("../middlewares/isLoggedIn");
 const productModel = require("../models/product-model");
 const userModel = require("../models/user-model");
@@ -12,26 +12,13 @@ app.use(cookieParser());
 
 // Home route
 router.get("/", function (req, res) {
+    let success = req.flash("success");
     let error = req.flash("error");
     // console.log(req.cookies.token);
-    res.render("index", { error, loggedin: false });
+    res.render("index", { error, loggedin: false , success});
 });
 
-// Shop route
-// router.get("/shop", async function (req, res) {
-//     try {
-//         let products = await productModel.find();
-//         let categories = await categoryModel.find().populate('products');
-//         // console.log(categories);
-//         let success = req.flash("success");
 
-//         res.render("shop", { products, success, categories });
-//     } catch (error) {
-//         console.error("Error fetching products:", error);
-//         req.flash("error", "Unable to fetch products.");
-//         res.redirect("/");
-//     }
-// });
 router.get("/shop", async (req, res) => {
     try {
         let categoryName = req.query.category; 
@@ -76,11 +63,38 @@ router.get("/addtocart/:productid", isLoggedin, async function (req, res) {
         user.cart.push(req.params.productid);
         await user.save();
         req.flash("success", "Added to cart");
-        res.redirect("/shop");
+        const referer = req.get('referer') || '/shop'; 
+        res.redirect(referer);
     } catch (error) {
         console.error("Error adding product to cart:", error);
         req.flash("error", "Unable to add product to cart.");
         res.redirect("/shop");
+    }
+});
+
+// Remove from Cart route
+
+router.get("/removefromcart/:productid", isLoggedin, async function (req, res) {
+    try {
+        const userId = req.user._id; 
+        const productId = req.params.productid;
+
+        let user = await userModel.findById(userId);
+
+        
+        const index = user.cart.indexOf(productId);
+
+        if (index > -1) {
+            user.cart.splice(index, 1); 
+            await user.save(); 
+        }
+
+        req.flash("success", "Removed the item from cart"); 
+        res.redirect("/cart"); 
+    } catch (error) {
+        console.error("Error removing product from cart:", error);
+        req.flash("error", "Unable to remove product from cart.");
+        res.redirect("/cart");
     }
 });
 
@@ -96,8 +110,9 @@ router.get("/cart", isLoggedin, async function (req, res) {
                 aggregatedCart[item._id] = { ...item.toObject(), quantity: 1 };
             }
         });
+        let success = req.flash("success");
 
-        res.render("cart", { cart: Object.values(aggregatedCart) });
+        res.render("cart", { cart: Object.values(aggregatedCart), success });
     } catch (error) {
         console.error("Error in fetching cart data:", error);
         req.flash("error", "Unable to fetch cart.");
@@ -105,4 +120,4 @@ router.get("/cart", isLoggedin, async function (req, res) {
     }
 });
 
-module.exports = router; // Export the router
+module.exports = router; 

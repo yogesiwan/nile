@@ -7,7 +7,7 @@ module.exports.registerUser =  async function (req, res) { // Correct order of p
 
         let already = await userModel.findOne({email:email});
         if(already) {
-            console.log(already);
+            // console.log(already);
             req.flash("error", "Email already registered.");
             return res.redirect("/");
         }
@@ -64,6 +64,7 @@ module.exports.loginUser = async function (req, res) {
             // Password matched, generate token and set cookie
             let token = generateToken(user);
             res.cookie("token", token); 
+            req.flash("success", `Welcome ${user.fullname}`);
             return res.redirect("/shop");
         } else {
             // Password did not match
@@ -74,6 +75,8 @@ module.exports.loginUser = async function (req, res) {
 };
 
 module.exports.logout = async function (req, res) {
+
+    req.flash("success", "Logged Out");
     // console.log("Before clearing cookie:", req.cookies.token); // Log cookie before clearing
     res.clearCookie("token");
     // console.log("After clearing cookie:", req.cookies.token); // Log cookie after clearing
