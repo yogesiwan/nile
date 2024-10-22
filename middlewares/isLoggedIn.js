@@ -3,10 +3,9 @@ const jwt = require('jsonwebtoken');
 
 
 module.exports = async function (req, res, next){
-    console.log(req.cookies.token);
     if(!req.cookies.token){
         req.flash("error", "You need to login first");
-        console.log(req.cookies.token);
+        // console.log(req.cookies.token);
         return res.redirect("/");
     }
     try{

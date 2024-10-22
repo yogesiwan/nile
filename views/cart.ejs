@@ -1,44 +1,45 @@
 <%- include('./partials/header') %>
 <div class="w-full h-screen flex items-start px-20 py-20 gap-10">
   <!-- Cart Items Section -->
-  <div class="w-[30%] rounded-md overflow-hidden">
-    <% cart.forEach(item => { %>
-    <div class="border border-gray-200 rounded-md">
-      <div class="w-full h-40 flex items-center justify-center">
-        <!-- Centered image container -->
-        <img
-          class="h-[80%] object-contain"
-          src="data:image/jpeg;base64,<%= item.image.toString('base64') %>"
-          alt=""
-        />
-      </div>
-      <div
-        class="w-full flex justify-between px-5 py-4"
-        data-item-id="<%= item.id %>"
-        style="background-color: #f9f6e9"
-      >
-        <h3 class="text-xl"><%= item.name %></h3>
-        <div class="flex items-center gap-2">
-          <i
-            class="w-6 h-6 bg-white flex rounded-full items-center justify-center ri-add-line cursor-pointer"
-            data-action="increment"
-          ></i>
-          <div class="px-2 py-1 rounded-md bg-white text-black" data-quantity>
-            <%= item.quantity %>
-          </div>
-          <i
-            class="w-6 h-6 bg-white flex rounded-full items-center justify-center ri-subtract-line cursor-pointer"
-            data-action="decrement"
-          ></i>
+  <!-- Cart Items Section -->
+<div class="w-[30%] rounded-md overflow-hidden max-h-[calc(100vh-120px)] overflow-y-auto">
+  <% cart.forEach(item => { %>
+  <div class="border border-gray-200 rounded-md mb-4"> <!-- Added margin for spacing -->
+    <div class="w-full h-40 flex items-center justify-center">
+      <!-- Centered image container -->
+      <img
+        class="h-[80%] object-contain"
+        src="data:image/jpeg;base64,<%= item.image.toString('base64') %>"
+        alt=""
+      />
+    </div>
+    <div
+      class="w-full flex justify-between px-5 py-4"
+      data-item-id="<%= item.id %>"
+      style="background-color: #f9f6e9"
+    >
+      <h3 class="text-xl"><%= item.name %></h3>
+      <div class="flex items-center gap-2">
+        <!-- <i
+          class="w-6 h-6 bg-white flex rounded-full items-center justify-center ri-add-line cursor-pointer"
+          data-action="increment"
+        ></i> -->
+        <div class="px-2 py-1 rounded-md bg-white text-black" data-quantity>
+          <%= item.quantity %>
         </div>
-      </div>
-      <div class="flex items-center justify-between px-5 py-3">
-        <h4 class="text-lg">Net Total</h4>
-        <h2 class="text-lg">₹ <%= item.price * item.quantity %></h2>
+        <!-- <i
+          class="w-6 h-6 bg-white flex rounded-full items-center justify-center ri-subtract-line cursor-pointer"
+          data-action="decrement"
+        ></i> -->
       </div>
     </div>
-    <% }) %>
+    <div class="flex items-center justify-between px-5 py-3">
+      <h4 class="text-lg">Net Total</h4>
+      <h2 class="text-lg">₹ <%= item.price * item.quantity %></h2>
+    </div>
   </div>
+  <% }) %>
+</div>
 
   <!-- Price Breakdown Section -->
   <div class="w-[70%]">
@@ -79,36 +80,36 @@
 
 <script>
   // Event listeners for plus and minus icons
-  document.addEventListener("DOMContentLoaded", () => {
-    const incrementButtons = document.querySelectorAll(
-      '[data-action="increment"]'
-    );
-    const decrementButtons = document.querySelectorAll(
-      '[data-action="decrement"]'
-    );
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   const incrementButtons = document.querySelectorAll(
+  //     '[data-action="increment"]'
+  //   );
+  //   const decrementButtons = document.querySelectorAll(
+  //     '[data-action="decrement"]'
+  //   );
 
-    // Increment button logic
-    incrementButtons.forEach((button) => {
-      button.addEventListener("click", (event) => {
-        const itemContainer = event.target.closest("[data-item-id]");
-        const quantityElement = itemContainer.querySelector("[data-quantity]");
-        let quantity = parseInt(quantityElement.textContent, 10);
-        quantity += 1; // Increase quantity by 1
-        quantityElement.textContent = quantity; // Update the displayed quantity
-      });
-    });
+  //   // Increment button logic
+  //   incrementButtons.forEach((button) => {
+  //     button.addEventListener("click", (event) => {
+  //       const itemContainer = event.target.closest("[data-item-id]");
+  //       const quantityElement = itemContainer.querySelector("[data-quantity]");
+  //       let quantity = parseInt(quantityElement.textContent, 10);
+  //       quantity += 1; // Increase quantity by 1
+  //       quantityElement.textContent = quantity; // Update the displayed quantity
+  //     });
+  //   });
 
-    // Decrement button logic
-    decrementButtons.forEach((button) => {
-      button.addEventListener("click", (event) => {
-        const itemContainer = event.target.closest("[data-item-id]");
-        const quantityElement = itemContainer.querySelector("[data-quantity]");
-        let quantity = parseInt(quantityElement.textContent, 10);
-        if (quantity > 1) {
-          quantity -= 1; // Decrease quantity by 1 if greater than 1
-          quantityElement.textContent = quantity; // Update the displayed quantity
-        }
-      });
-    });
-  });
+  //   // Decrement button logic
+  //   decrementButtons.forEach((button) => {
+  //     button.addEventListener("click", (event) => {
+  //       const itemContainer = event.target.closest("[data-item-id]");
+  //       const quantityElement = itemContainer.querySelector("[data-quantity]");
+  //       let quantity = parseInt(quantityElement.textContent, 10);
+  //       if (quantity > 1) {
+  //         quantity -= 1; // Decrease quantity by 1 if greater than 1
+  //         quantityElement.textContent = quantity; // Update the displayed quantity
+  //       }
+  //     });
+  //   });
+  // });
 </script>

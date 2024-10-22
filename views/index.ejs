@@ -1,14 +1,14 @@
 <%- include('./partials/header') %> <% if(error.length) { %>
 <div
   id="error-message"
-  class="absolute top-50 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-red-500"
+  class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-red-500"
 >
   <span class="inline-block mt-1 mb-1 text-white"> <%= error %> </span>
 </div>
 <% } %>
 
-<div class="w-full h-screen flex px-20">
-  <div class="w-1/2 flex items-center justify-center h-screen">
+<div class="w-full  flex px-20 overflow-hidden">
+  <div class="w-1/2 flex items-center justify-center ">
     <div class="w-full px-32">
       <h3 class="text-4xl">
         Welcome to <span class="text-blue-400 font-semibold">Nile</span>
@@ -42,10 +42,10 @@
     </div>
   </div>
    <!-- New "Enter Shop" button -->
-   <div class="mt-20">
+   <div class="mt-52">
     <a
       href="/shop"
-      class="block text-center px-5 py-3 bg-green-500 text-white rounded-full cursor-pointer"
+      class="block text-center px-5 py-3 bg-blue-500 text-white rounded-full cursor-pointer"
     >
       Enter Shop without Loggin in
     </a>

@@ -4,91 +4,94 @@
 <% if(success.length) { %>
 <div
   id="success-message"
-  class="absolute top-50 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-green-500"
+  class="absolute top-50 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full bg-green-500 z-20"
 >
   <span class="inline-block mt-1 mb-1 text-white"> <%= success %> </span>
 </div>
 <% } %>
 
 <!-- Main Content Section -->
-<div class="w-full h-screen flex">
-  <!-- Make the main container full height and flex -->
-  <!-- Sidebar Section -->
-  <div class="w-[25%] px-10 flex-col items-start pr-4 fixed h-screen">
-    <!-- Fixed sidebar height -->
-    <div class="flex items-center gap-2 mt-4">
-      <h3>Category</h3>
-      
-    <form action="/shop" method="GET">
-      <select class="border-[1px] px-2 py-1" name="category" onchange="this.form.submit()">
-        <option value="" <%= !categoryName || categoryName === 'All' ? 'selected' : '' %>>All</option>
-        <% categories.forEach(function(category) { %>
-            <option value="<%= category.catname %>" <%= category.catname === categoryName ? 'selected' : '' %>><%= category.catname %></option>
-        <% }) %>
-     </select>
-    </form>
-    </div>
-    <div class="flex flex-col mt-20">
-      <a class="block w-fit mb-2" href="">New Collection</a>
-      <a class="block w-fit mb-2" href="">All Products</a>
-      <a class="block w-fit mb-2" href="">Discounted Products</a>
-    </div>
-    <div class="mt-32">
-      <h4 class="block w-fit mb-2">Filter by Category:</h4>
-      <!-- <% categories.forEach(function(category) { %>
-      <a class="block w-fit mb-2" href="/shop?category=<%= category.catname %>">
-        <%= category.catname %>
-      </a>
-      <% }) %> -->
-      <a class="block w-fit mb-2" href="">Filter by :</a>
-      <a class="block w-fit mb-2" href="">Availability</a>
-      <a class="block w-fit mb-2" href="">Discount</a>
-    </div>
-  </div>
-
-  <!-- Products Section -->
-  <div class="w-[75%] ml-[23%] h-screen overflow-y-auto">
-    <!-- Adjusted for fixed sidebar -->
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 h-full"
-    >
-      <!-- Set to fill remaining height -->
-      <% products.forEach(function(product) { %>
-      <div class="w-full ">
-        <!-- Adjust height to 80 -->
-        <div
-          class="h-64 flex items-center justify-center rounded-2xl shadow-lg"
-          style="background-color: <%= product.bgcolor %>"
-        >
-          <img
-            class="h-[80%]"
-            src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-            alt=""
-          />
+<div class="w-full h-screen flex pr-4">
+    <!-- Sidebar Section -->
+    <div class="w-[19%] px-6 py-8 bg-white shadow-lg flex-col items-start pr-4 fixed h-screen">
+        <!-- Sidebar with background and shadow -->
+        
+        <!-- Category Section -->
+        <div class="flex flex-col items-start gap-4 mb-10">
+          <h3 class="text-lg font-semibold text-gray-700">Categories</h3>
+          <form action="/shop" method="GET">
+            <select class="border border-gray-300 rounded-md px-3 py-2 text-gray-600 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500" name="category" onchange="this.form.submit()">
+              <option value="" <%= !categoryName || categoryName === 'All' ? 'selected' : '' %>>All</option>
+              <% categories.forEach(function(category) { %>
+                <option value="<%= category.catname %>" <%= category.catname === categoryName ? 'selected' : '' %>>
+                  <%= category.catname %>
+                </option>
+              <% }) %>
+            </select>
+          </form>
         </div>
-        <div
-          class="my-2 flex justify-between items-center px-4 py-4 rounded-md"
-          style="
-            background-color: <%= product.panelcolor %>;
-            color: <%= product.textcolor %>;
-          "
-        >
-          <div class="flex flex-col items-start">
-            <h3 class="text-lg font-bold truncate w-40"><%= product.name %></h3>
-            <h4 class="text-md">₹ <%= product.price %></h4>
-          </div>
-          <a
-            class="w-8 h-8 flex items-center justify-center rounded-full bg-white"
-            href="/addtocart/<%= product._id %>"
-          >
-            <i class="ri-add-line"></i>
-          </a>
+      
+        <!-- Navigation Links Section -->
+        <div class="flex flex-col items-start gap-4 mb-10">
+          <h4 class="text-md font-semibold text-gray-700">Shop Sections</h4>
+          <a class="block text-gray-600 hover:text-indigo-600 transition duration-150 ease-in-out" href="">New Collection</a>
+          <a class="block text-gray-600 hover:text-indigo-600 transition duration-150 ease-in-out" href="/shop">All Products</a>
+          <a class="block text-gray-600 hover:text-indigo-600 transition duration-150 ease-in-out" href="">Discounted Products</a>
+        </div>
+      
+        <!-- Filter Section -->
+        <div class="flex flex-col items-start gap-4">
+          <h4 class="text-md font-semibold text-gray-700">Filters</h4>
+          <a class="block text-gray-600 hover:text-indigo-600 transition duration-150 ease-in-out" href="">Availability</a>
+          <a class="block text-gray-600 hover:text-indigo-600 transition duration-150 ease-in-out" href="">Discount</a>
         </div>
       </div>
-      <% }) %>
-    </div>
+  
+    <!-- Products Section -->
+    <div class="w-[80%] ml-[20%] h-screen overflow-y-scroll">
+        <!-- Allowing the main section to scroll -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 h-full my-2">
+          <% products.forEach(function(product) { %>
+          <div class="w-full">
+            <div
+              class="h-64 flex items-center justify-center rounded-2xl shadow-lg"
+              style="background-color: <%= product.bgcolor %>"
+            >
+              <img
+                class="h-[80%]"
+                src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                alt=""
+              />
+            </div>
+            <div
+              class="my-2 flex justify-between items-center px-8 py-8 rounded-md"
+              style="background-color: <%= product.panelcolor %>; color: <%= product.textcolor %>;"
+            >
+              <div class="flex flex-col items-start">
+                <!-- Fixed height for the product name container -->
+                <h3 class="text-lg font-bold w-40 h-12 overflow-hidden "><%= product.name %></h3>
+      
+                <!-- Show the original price with discount, if applicable -->
+                <% if (product.discount && (product.discount < product.price)) { %>
+                  <h4 class="text-md text-gray-500 line-through mt-2">₹ <%= product.price %></h4>
+                  <h4 class="text-md font-bold text-red-600">₹ <%= product.discount %></h4>
+                <% } else { %>
+                  <h4 class="text-md font-bold mt-2">₹ <%= product.price %></h4>
+                  <h4 class="invisible">x</h4> 
+                <% } %>
+              </div>
+              <a
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-white"
+                href="/addtocart/<%= product._id %>"
+              >
+                <i class="ri-add-line"></i>
+              </a>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
   </div>
-</div>
 
 <script>
   // Hide success message after 2 seconds

@@ -34,30 +34,32 @@ router.get("/", function (req, res) {
 // });
 router.get("/shop", async (req, res) => {
     try {
-        let categoryName = req.query.category; // Extract category from query string
-        // console.log(categoryName);
-
-        // If category is provided, find products for that category
+        let categoryName = req.query.category; 
+        let discounted = req.query.discounted;
         let products;
+        let categories;
+        let success;
+
+        if(discounted)
+        {
+            products = await productModel.find();
+            
+        }
         if (categoryName){
 
             const category = await categoryModel.findOne({ catname: categoryName }).populate('products');
-                   products =  category.products ;
-                    let categories = await categoryModel.find();
-                    // console.log(categories);
-                    let success = req.flash("success");
-            
-                    res.render("shop", { products, success, categories, categoryName });
+
+                    products =  category.products ;
+                    categories = await categoryModel.find();
         } 
         else {      
                     categoryName = "All";
-                    let products = await productModel.find();
-                    let categories = await categoryModel.find();
-                    // console.log(categories);
-                    let success = req.flash("success");
-            
-                    res.render("shop", { products, success, categories, categoryName });
+                    products = await productModel.find();
+                    categories = await categoryModel.find();
             }
+
+            success = req.flash("success");
+            res.render("shop", { products, success, categories, categoryName });
     } catch (error) {
         console.error("Error fetching products by category:", error);
         req.flash("error", "Unable to fetch products.");
@@ -70,11 +72,11 @@ router.get("/shop", async (req, res) => {
 router.get("/addtocart/:productid", isLoggedin, async function (req, res) {
     try {
         
-        let user = req.user; // req.user is set by the isLoggedin middleware
+        let user = req.user;
         user.cart.push(req.params.productid);
         await user.save();
         req.flash("success", "Added to cart");
-        res.redirect("/shop"); // Redirecting to shop after updating the cart
+        res.redirect("/shop");
     } catch (error) {
         console.error("Error adding product to cart:", error);
         req.flash("error", "Unable to add product to cart.");

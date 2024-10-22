@@ -39,6 +39,10 @@ module.exports.registerUser =  async function (req, res) { // Correct order of p
 module.exports.loginUser = async function (req, res) {
     const { password, email } = req.body;
 
+    
+    // console.log(password);
+    // console.log(email);
+
     // Find the user by email
     let user = await userModel.findOne({ email: email });
     
