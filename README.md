@@ -1,4 +1,4 @@
-# InstaBook - Social Media App 
+# Nile - E-Commerce app
 
 Nile is an E-Commerce Web application where users can register, log in, Browse shop itmes, Add the items into their cart etc. The platform is built using EJS, Node.js, MongoDB, and various Node.js packages.
 ## 🔗 Live link
