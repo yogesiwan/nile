@@ -40,6 +40,26 @@ app.set('view engine', 'ejs');
 
 //  Routers Setup
 app.use('/', indexRouter);
+
+// Keep-alive endpoint
+app.get("/keep-alive", (req, res) => {
+    res.status(200).send("Server is active");
+});
+
+setInterval(async () => {
+    try {
+        const response = await fetch("https://nile-ezvi.onrender.com", {
+            method: "GET"
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Server response: ${response.status}`);
+        }
+        
+    } catch (error) {
+        console.error("Keep-alive request failed:", error.message);
+    }
+}, 10 * 60 * 1000); // Every 10 minutes
    
 app.use('/owners', ownersRouter); 
 app.use('/products', productsRouter);
