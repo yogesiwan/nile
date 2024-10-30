@@ -48,7 +48,7 @@ app.get("/keep-alive", (req, res) => {
 
 setInterval(async () => {
     try {
-        const response = await fetch("https://nile-ezvi.onrender.com", {
+        const response = await fetch("https://nile-ezvi.onrender.com/keep-alive", {
             method: "GET"
         });
         
